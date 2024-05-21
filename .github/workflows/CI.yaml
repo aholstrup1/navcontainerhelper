@@ -36,6 +36,8 @@ jobs:
 
       - name: Deploy
         run: |
+          Import-Module Az.Storage
+
           Write-Host "Upload to storage (preview)"
           $storageContext = New-AzStorageContext -UseConnectedAccount -StorageAccountName 'bccontainerhelper'
 
