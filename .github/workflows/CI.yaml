@@ -42,8 +42,8 @@ jobs:
           Write-Host "Logged in to Azure as $($context.Account.Id)"
 
           Write-Host "Upload to storage (preview)"
-          $storageContext = New-AzStorageContext -UseConnectedAccount -StorageAccountName 'bccontainerhelper'
+          $storageContext = New-AzStorageContext -StorageAccountName 'bccontainerhelper'
 
           Write-Host "Storage Context: $($storageContext.StorageAccountName)"
 
-          New-AzStorageContainer -Name 'public' -Context $storageContext -Permission 'Container' -ErrorAction Ignore | Out-Null
+          #New-AzStorageContainer -Name 'public' -Context $storageContext -Permission 'Container' -ErrorAction Ignore | Out-Null
