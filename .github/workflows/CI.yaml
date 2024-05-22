@@ -38,7 +38,7 @@ jobs:
       - name: Install Azure Powershell Modules
         run: |
           if(-not (Get-Module 'Az.Storage' -ListAvailable)) {
-            Install-Module -Name 'Az.Storage' -Force
+            Install-Module -Name 'Az.Storage' -Force -AllowClobber
           }
 
       - name: Deploy
