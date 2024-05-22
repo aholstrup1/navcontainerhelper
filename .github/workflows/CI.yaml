@@ -37,9 +37,9 @@ jobs:
 
       - name: Deploy
         run: |
-          $context = Get-AzContext
           Write-Host "Logged in to Azure as $($context.Account.Id)"
           Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
+          $context = Get-AzContext
 
           Write-Host "Upload to storage (preview)"
           $storageContext = New-AzStorageContext -UseConnectedAccount -StorageAccountName 'bccontainerhelper'
