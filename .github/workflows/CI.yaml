@@ -37,7 +37,6 @@ jobs:
       - name: Deploy
         run: |
           Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
-          Connect-AzAccount -Identity
 
           Write-Host "Upload to storage (preview)"
           $storageContext = New-AzStorageContext -UseConnectedAccount -StorageAccountName 'bccontainerhelper'
