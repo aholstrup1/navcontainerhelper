@@ -18,11 +18,18 @@ jobs:
     runs-on: [ windows-latest ]
     steps:
       - name: 'Az CLI login'
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            enable-AzPSSession: true
+            
+      - name: Install Azure Powershell Modules
+        run: |
+          if(-not (Get-Module 'Az.Storage' -ListAvailable)) {
+            Install-Module -Name 'Az.Storage' -Force -AllowClobber
+          }
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -92,12 +99,12 @@ jobs:
             Set-AuthenticodeSignature -Certificate $cert -HashAlgorithm SHA256 -TimestampServer "http://timestamp.digicert.com" -FilePath $filesToSign
             
             Write-Host "Upload to storage (preview)"
-            $storageContext = New-AzureStorageContext -UseConnectedAccount
-            New-AzureStorageContainer -Name 'public' -Context $storageContext -Permission 'Container' -ErrorAction Ignore | Out-Null
-            
+            $storageContext = New-AzStorageContext -StorageAccountName 'businesscentralapps' -UseConnectedAccount
+            New-AzStorageContainer -Name 'public' -Context $storageContext -Permission 'Container' -ErrorAction Ignore | Out-Null
+          
             Compress-Archive -path $path -DestinationPath "$($path).zip"
-            Set-AzureStorageBlobContent -File "$($path).zip" -Context $storageContext -Container 'public' -Blob "$version.zip" -Force | Out-Null
-            Set-AzureStorageBlobContent -File "$($path).zip" -Context $storageContext -Container 'public' -Blob "latest.zip" -Force | Out-Null
+            Set-AzStorageBlobContent -File "$($path).zip" -Context $storageContext -Container 'public' -Blob "$version-$prerelease.zip" -Force | Out-Null
+            Set-AzStorageBlobContent -File "$($path).zip" -Context $storageContext -Container 'public' -Blob "preview.zip" -Force | Out-Null
             
             Write-Host "Publishing Module"
             Publish-Module -Path $path -NuGetApiKey '${{ secrets.NugetKey }}' -SkipAutomaticTags
