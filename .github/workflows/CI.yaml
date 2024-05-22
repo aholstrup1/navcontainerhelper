@@ -28,14 +28,17 @@ jobs:
     runs-on: [ windows-latest ]
     steps:
       - name: 'Az CLI login'
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            enable-AzPSSession: true
 
       - name: Deploy
         run: |
+          $context = Get-AzContext
+          Write-Host "Logged in to Azure as $($context.Account.Id)"
           Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
 
           Write-Host "Upload to storage (preview)"
