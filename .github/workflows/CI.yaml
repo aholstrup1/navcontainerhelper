@@ -82,7 +82,7 @@ jobs:
 
             Write-Host "Upload to storage (preview)"
             $storageContext = New-AzStorageContext -StorageAccountName 'bcprivate' -UseConnectedAccount
-            New-AzStorageContainer -Name 'TestContainerHelper' -Context $storageContext -Permission 'Container'
+            New-AzStorageContainer -Name 'testcontainerhelper' -Context $storageContext -Permission 'Container'
           
             Compress-Archive -path $path -DestinationPath "$($path).zip"
             Set-AzStorageBlobContent -File "$($path).zip" -Context $storageContext -Container 'public' -Blob "$version-$prerelease.zip" -Force | Out-Null
