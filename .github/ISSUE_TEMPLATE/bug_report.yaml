@@ -8,6 +8,7 @@ body:
         Thanks for taking the time to fill out this bug report!
 
         Before you create a new issue, please check the following:
+        ✅ Make sure you can reproduce the issue on the [latest version](https://www.powershellgallery.com/packages/BcContainerHelper) of BCContainerhelper.
         🔎 Search existing issues to avoid creating duplicates.
         📖 Preview formatting to see that your scripts are readable.
         ⛔ Please do NOT include any passwords or tokens in your issue.
