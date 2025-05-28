@@ -65,10 +65,8 @@ body:
       label: Does this happen every time?
       description: Does this issue occur every time you run the command or script?
       options:
-        - label: Yes, every time
-          value: yes
-        - label: No, it happens sometimes
-          value: sometimes
+        - Yes
+        - No
     validations:
       required: true
 
@@ -78,9 +76,7 @@ body:
       label: Did this used to work?
       description: Did this issue used to work in a previous version of BCContainerhelper?
       options:
-        - label: Yes
-          value: yes
-        - label: No
-          value: no
+        - Yes
+        - No
     validations:
       required: true
