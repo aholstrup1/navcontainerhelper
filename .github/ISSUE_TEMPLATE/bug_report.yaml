@@ -63,7 +63,7 @@ body:
     id: frequency
     attributes:
       label: Does this happen every time?
-      description: 
+      description: Does this issue occur every time you run the command or script?
       options:
         - label: Yes, every time
           value: yes
@@ -76,7 +76,7 @@ body:
     id: used-to-work
     attributes:
       label: Did this used to work?
-      description: 
+      description: Did this issue used to work in a previous version of BCContainerhelper?
       options:
         - label: Yes
           value: yes
