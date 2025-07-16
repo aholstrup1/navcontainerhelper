@@ -28,7 +28,6 @@ Describe 'AppHandling' {
                         -auth 'Windows' `
                         -Credential $credential `
                         -updateHosts `
-                        -licenseFile $buildLicenseFile `
                         -includeTestToolkit `
                         -multitenant:$false `
                         -runSandboxAsOnPrem `
