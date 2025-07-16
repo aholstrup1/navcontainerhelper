@@ -29,7 +29,6 @@ Describe 'AppHandling' {
                          -auth NavUserPassword `
                          -Credential $credential `
                          -updateHosts `
-                         -licenseFile $licenseFile `
                          -includeTestToolkit
 
         Import-ObjectsToNavContainer -containerName $navContainerName -objectsFile (Join-Path $PSScriptRoot "inserttests.txt") -sqlCredential $credential

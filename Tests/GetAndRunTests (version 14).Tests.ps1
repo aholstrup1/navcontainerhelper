@@ -27,7 +27,6 @@ Describe 'AppHandling' {
                          -auth NavUserPassword `
                          -Credential $credential `
                          -updateHosts `
-                         -licenseFile $licenseFile `
                          -includeTestToolkit
 
         Copy-Item -Path (Join-Path $PSScriptRoot "inserttests") -Destination (Join-Path $bcContainerHelperConfig.hostHelperFolder "Extensions\$navContainerName") -Recurse -Force

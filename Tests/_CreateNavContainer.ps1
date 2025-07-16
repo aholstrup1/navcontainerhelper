@@ -13,7 +13,6 @@ New-NavContainer -accept_eula `
                  -Credential $credential `
                  -updateHosts `
                  -memoryLimit 8g `
-                 -licenseFile $licenseFile `
                  -includeCSide `
                  -includeTestToolkit `
                  -includeTestLibrariesOnly
