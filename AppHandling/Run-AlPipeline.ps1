@@ -544,6 +544,8 @@ function RunPageScriptingTests {
         [switch] $returnTrueIfAllPassed
     )
 
+    Write-Host "----- Running Page Scripting Tests ---- "
+
     # Install npm package for page scripting tests
     pwsh -command { npm i @microsoft/bc-replay@0.1.67 --save --silent }
 
