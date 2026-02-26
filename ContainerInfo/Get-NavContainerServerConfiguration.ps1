@@ -12,10 +12,10 @@ Function Get-BcContainerServerConfiguration {
     Param (
         [String] $ContainerName = $bcContainerHelperConfig.defaultContainerName
     )
+    Write-Host "Getting server configuration for container: $ContainerName"
 
     $serverConfig = Invoke-ScriptInBcContainer -containerName $containerName -ScriptBlock{ Param($ContainerName)
         $config = Get-NavServerInstance | Get-NAVServerConfiguration -AsXml
-        Write-Host "Config: $($config | Out-String)"
         $object = [ordered]@{ "ContainerName" = $ContainerName }
         if ($config) {
             $Config.configuration.appSettings.add | ForEach-Object{
