@@ -104,13 +104,15 @@ $telemetryScope = InitTelemetryScope -name $MyInvocation.InvocationName -paramet
 try {
 
     Add-Type -AssemblyName System.Net.Http
-
+    Write-Host "ContainerName 0: $containerName"
     if ($containerName -eq "" -and (!($bcAuthContext -and $environment))) {
         $containerName = $bcContainerHelperConfig.defaultContainerName
     }
     $installedApps = @()
+    Write-Host "ContainerName 1: $containerName"
     if ($containerName) {
         $customconfig = Get-BcContainerServerConfiguration -ContainerName $containerName
+        Write-Host "CustomConfig: $($customConfig | Out-String)"
         $appFolder = Join-Path $bcContainerHelperConfig.hostHelperFolder "Extensions\$containerName\$([guid]::NewGuid().ToString())"
         if ($appFile -is [string] -and $appFile.Startswith(':')) {
             New-Item $appFolder -ItemType Directory | Out-Null
