@@ -111,7 +111,13 @@ try {
     $installedApps = @()
     Write-Host "ContainerName 1: $containerName"
     if ($containerName) {
+        Write-Host "Getting container configuration"
+        Write-Host "Get-BcContainerServerConfiguration -ContainerName $containerName"
         $customconfig = Get-BcContainerServerConfiguration -ContainerName $containerName
+        # Check if customconfig is null 
+        if ($null -eq $customconfig) {
+            Write-Host "No configuration found for container $containerName."
+        }
         Write-Host "CustomConfig: $($customConfig | Out-String)"
         $appFolder = Join-Path $bcContainerHelperConfig.hostHelperFolder "Extensions\$containerName\$([guid]::NewGuid().ToString())"
         if ($appFile -is [string] -and $appFile.Startswith(':')) {
