@@ -13,7 +13,7 @@ Function Get-BcContainerServerConfiguration {
         [String] $ContainerName = $bcContainerHelperConfig.defaultContainerName
     )
 
-    Invoke-ScriptInBcContainer -containerName $containerName -ScriptBlock{ Param($ContainerName)
+    $serverConfig = Invoke-ScriptInBcContainer -containerName $containerName -ScriptBlock{ Param($ContainerName)
         $config = Get-NavServerInstance | Get-NAVServerConfiguration -AsXml
         Write-Host "Config: $($config | Out-String)"
         $object = [ordered]@{ "ContainerName" = $ContainerName }
@@ -29,6 +29,9 @@ Function Get-BcContainerServerConfiguration {
         }
         $object | ConvertTo-Json -Depth 99 -compress
     } -argumentList $containerName | ConvertFrom-Json
+
+    Write-Host "ServerConfig: $($serverConfig | Out-String)"
+    return $serverConfig
 }
 Set-Alias -Name Get-NavContainerServerConfiguration -Value Get-BcContainerServerConfiguration
 Export-ModuleMember -Function Get-BcContainerServerConfiguration -Alias Get-NavContainerServerConfiguration
