@@ -67,6 +67,9 @@ Function Publish-BcNuGetPackageToContainer {
     }
 
     $installedApps = @()
+    Write-Host "0 Start --- "
+    $customconfig = Get-BcContainerServerConfiguration -ContainerName $containerName
+    Write-Host "0 End --- "
     if ($bcAuthContext -and $environment) {
         $envInfo = Get-BcEnvironments -bcAuthContext $bcAuthContext -environment $environment
         $installedPlatform = [System.Version]$envInfo.platformVersion
@@ -81,6 +84,9 @@ Function Publish-BcNuGetPackageToContainer {
     $tmpFolder = Join-Path ([System.IO.Path]::GetTempPath()) ([GUID]::NewGuid().ToString())
     New-Item $tmpFolder -ItemType Directory | Out-Null
     try {
+        Write-Host "1 Start --- "
+        $customconfig = Get-BcContainerServerConfiguration -ContainerName $containerName
+        Write-Host "1 End --- "
         if (Download-BcNuGetPackageToFolder -nuGetServerUrl $nuGetServerUrl -nuGetToken $nuGetToken -packageName $packageName -version $version -appSymbolsFolder $tmpFolder -installedApps $installedApps -installedPlatform $installedPlatform -installedCountry $installedCountry -verbose:($VerbosePreference -eq 'Continue') -select $select) {
             $appFiles = Get-Item -Path (Join-Path $tmpFolder '*.app') | ForEach-Object {
                 if ($appSymbolsFolder) {
