@@ -96,6 +96,8 @@ Function Publish-BcNuGetPackageToContainer {
                 if ($inst) { $inst | ForEach-Object { Write-Host "ServerInstance: $($_.ServerInstance) State: $($_.State)" } }
                 else { Write-Host "WARNING: Get-NavServerInstance returned nothing" }
             }
+            $customconfig = Get-BcContainerServerConfiguration -ContainerName $containerName
+            Write-Host "Starting publish of app(s) to container $containerName"
             Publish-BcContainerApp -containerName $containerName -bcAuthContext $bcAuthContext -environment $environment -tenant $tenant -appFile $appFiles -sync -install -upgrade -checkAlreadyInstalled -skipVerification -copyInstalledAppsToFolder $copyInstalledAppsToFolder
         }
         elseif ($ErrorActionPreference -eq 'Stop') {

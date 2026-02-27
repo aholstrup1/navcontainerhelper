@@ -102,14 +102,17 @@ function Publish-BcContainerApp {
 
 $telemetryScope = InitTelemetryScope -name $MyInvocation.InvocationName -parameterValues $PSBoundParameters -includeParameters @()
 try {
+    Write-Host "ContainerName 0: $containerName"
+    $customconfig = Get-BcContainerServerConfiguration -ContainerName $containerName
 
     Add-Type -AssemblyName System.Net.Http
-    Write-Host "ContainerName 0: $containerName"
+    Write-Host "ContainerName 1: $containerName"
     if ($containerName -eq "" -and (!($bcAuthContext -and $environment))) {
         $containerName = $bcContainerHelperConfig.defaultContainerName
     }
+    $customconfig = Get-BcContainerServerConfiguration -ContainerName $containerName
     $installedApps = @()
-    Write-Host "ContainerName 1: $containerName"
+    Write-Host "ContainerName : $containerName"
     if ($containerName) {
         Write-Host "Getting container configuration"
         Write-Host "Get-BcContainerServerConfiguration -ContainerName $containerName"
