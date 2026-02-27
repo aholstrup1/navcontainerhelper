@@ -88,7 +88,7 @@ Function Publish-BcNuGetPackageToContainer {
                 }
                 $_.FullName
             }
-            Write-Host "Publish-BcNuGetPackageToContainer: About to publish $($appFiles.Count) app(s) to container $containerName"
+            Write-Host "Publish-BcNuGetPackageToContainer: About to publish app(s) to container $containerName"
             Invoke-ScriptInBcContainer -containerName $containerName -scriptblock {
                 $svc = Get-Service -Name "MicrosoftDynamicsNavServer`$*" -ErrorAction SilentlyContinue
                 $svc | ForEach-Object { Write-Host "BC Service '$($_.Name)' Status: $($_.Status)" }
