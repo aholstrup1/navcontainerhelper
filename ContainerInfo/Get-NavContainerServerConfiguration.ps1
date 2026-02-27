@@ -28,7 +28,15 @@ Function Get-BcContainerServerConfiguration {
         
         # Get server instances with detailed info
         Write-Host "Calling Get-NavServerInstance..."
-        $serverInstances = @(Get-NavServerInstance)
+        try {
+            $serverInstances = @(Get-NavServerInstance)
+        } catch {
+            Write-Host "ERROR: Get-NavServerInstance threw an exception: $_"
+            # Log all the details of the error
+            Write-Host "Exception Type: $($_.GetType().FullName)"
+            Write-Host "Exception Message: $($_.Message)"
+            Write-Host "Exception StackTrace: $($_.StackTrace)"
+        }
         Write-Host "Get-NavServerInstance returned $($serverInstances.Count) instance(s)"
         if ($serverInstances.Count -gt 0) {
             $serverInstances | ForEach-Object { 
