@@ -88,6 +88,14 @@ Function Publish-BcNuGetPackageToContainer {
                 }
                 $_.FullName
             }
+            Write-Host "Publish-BcNuGetPackageToContainer: About to publish $($appFiles.Count) app(s) to container $containerName"
+            Invoke-ScriptInBcContainer -containerName $containerName -scriptblock {
+                $svc = Get-Service -Name "MicrosoftDynamicsNavServer`$*" -ErrorAction SilentlyContinue
+                $svc | ForEach-Object { Write-Host "BC Service '$($_.Name)' Status: $($_.Status)" }
+                $inst = Get-NavServerInstance
+                if ($inst) { $inst | ForEach-Object { Write-Host "ServerInstance: $($_.ServerInstance) State: $($_.State)" } }
+                else { Write-Host "WARNING: Get-NavServerInstance returned nothing" }
+            }
             Publish-BcContainerApp -containerName $containerName -bcAuthContext $bcAuthContext -environment $environment -tenant $tenant -appFile $appFiles -sync -install -upgrade -checkAlreadyInstalled -skipVerification -copyInstalledAppsToFolder $copyInstalledAppsToFolder
         }
         elseif ($ErrorActionPreference -eq 'Stop') {
