@@ -56,8 +56,16 @@ function Invoke-ScriptInBcContainer {
             $ex = $_.Exception
             while ($ex) {
                 Write-Host -ForegroundColor Red "Exception: $($ex.GetType().FullName): $($ex.Message)"
+                if ($ex -is [System.Management.Automation.RemoteException] -and $ex.SerializedRemoteException) {
+                    Write-Host -ForegroundColor Red "Remote Exception Type: $($ex.SerializedRemoteException.PSObject.Properties['FullyQualifiedErrorId']?.Value)"
+                    Write-Host -ForegroundColor Red "Remote Exception Details: $($ex.SerializedRemoteException | Out-String)"
+                }
                 $ex = $ex.InnerException
             }
+            if ($_.Exception.SerializedRemoteInvocationInfo) {
+                Write-Host -ForegroundColor Red "Remote Invocation: $($_.Exception.SerializedRemoteInvocationInfo | Out-String)"
+            }
+            Write-Host -ForegroundColor Red "Full Error Record: $($_ | Format-List -Force | Out-String)"
             if ($isInsideContainer) {
                 Write-Host "Error trying to establish session, retrying in 5 seconds"
                 Start-Sleep -Seconds 5
