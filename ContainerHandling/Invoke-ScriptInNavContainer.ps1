@@ -50,6 +50,9 @@ function Invoke-ScriptInBcContainer {
         }
         catch {
             Write-Host -ForegroundColor Red "Error trying to establish session: $_"
+            Write-Host -ForegroundColor Red $_.ScriptStackTrace
+            Write-Host -ForegroundColor Red "PowerShell Call Stack:"
+            Get-PSCallStack | Write-Host -ForegroundColor Red
             if ($isInsideContainer) {
                 Write-Host "Error trying to establish session, retrying in 5 seconds"
                 Start-Sleep -Seconds 5
