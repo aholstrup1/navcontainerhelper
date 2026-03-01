@@ -31,19 +31,25 @@ function Invoke-ScriptInBcContainer {
     )
 
     $file = ''
+    Write-Host "Test - UseSession: $useSession"
     if (!$useSession) {
         $file = Join-Path $bcContainerHelperConfig.hostHelperFolder ([GUID]::NewGuid().Tostring()+'.ps1')
         $containerFile = Get-BcContainerPath -containerName $containerName -path $file
+        Write-Host "isInsideContainer: $isInsideContainer"
+        Write-Host "containerFile: $containerFile $($containerFile -eq '')"
         if ($isInsideContainer -or "$containerFile" -eq "") {
             $useSession = $true
         }
     }
+
+    Write-Host "Final UseSession: $useSession"
 
     if ($useSession) {
         try {
             $session = Get-BcContainerSession -containerName $containerName -silent -usePwsh:$usePwsh
         }
         catch {
+            Write-Host -ForegroundColor Red "Error trying to establish session: $_"
             if ($isInsideContainer) {
                 Write-Host "Error trying to establish session, retrying in 5 seconds"
                 Start-Sleep -Seconds 5
